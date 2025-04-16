@@ -217,14 +217,8 @@
 
     function handleCredentialResponse(response) {
         const token_id = response.credential;
-        const data = parseJwt(token_id);
-        console.log("Token ID:", token_id);
-        console.log("User info (from token):", data);
 
-        document.getElementById("message").style.color = "green";
-        document.getElementById("message").innerText = `Xin chào, ${data.name || "người dùng"}`;
-
-        fetch("http://localhost:8080/api/auth/login-google", {
+        fetch("https://auth-service-1-bxsn.onrender.com/api/auth/login-google", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -235,18 +229,19 @@
                 if (!res.ok) throw new Error("Xác thực thất bại");
                 return res.json();
             })
-            .then(result => {
-                console.log("Xác thực thành công từ backend:", result);
+            .then(user => {
+                console.log("Thông tin người dùng:", user);
 
-                // Lưu token hoặc thông tin người dùng nếu cần
-                localStorage.setItem("authToken", token_id); // nếu bạn dùng token ở phía client
-                localStorage.setItem("userInfo", JSON.stringify(result)); // lưu thông tin người dùng
+                // Lưu token và user info nếu cần
+                localStorage.setItem("authToken", token_id);
+                localStorage.setItem("userInfo", JSON.stringify(user));
 
-                // Có thể hiển thị tên thật từ backend trả về nếu cần
-                document.getElementById("message").innerText = `Xin chào, ${result.name}`;
+                // Hiển thị lời chào
+                document.getElementById("message").style.color = "green";
+                document.getElementById("message").innerText = `Xin chào, ${user.name || "người dùng"} (${user.email})`;
 
-                // Điều hướng sau khi login
-                setTimeout(() => window.location.href = "home.html", 1000);
+                // Có thể redirect hoặc xử lý tiếp
+                setTimeout(() => window.location.href = "home.html", 100);
             })
             .catch(err => {
                 console.error("Lỗi khi xác thực với backend:", err);
