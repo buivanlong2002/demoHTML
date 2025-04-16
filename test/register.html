@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Đăng Ký</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #a071af;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #a071af;
+        }
+
+        .switch {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .switch a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        #message {
+            margin-top: 12px;
+            font-size: 14px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Đăng Ký</h2>
+    <input type="text" id="fullname" placeholder="Họ và tên" />
+    <input type="text" id="phone" placeholder="Số điện thoại" />
+    <input type="email" id="email" placeholder="Email" />
+    <input type="text" id="address" placeholder="Địa chỉ    " />
+    <input type="password" id="password" placeholder="Mật khẩu" />
+    <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu" />
+    <input type="date" id="date_of_birth"  />
+    <button onclick="register()">Đăng Ký</button>
+    <p id="message"></p>
+    <p class="switch">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+</div>
+
+<script>
+    async function register() {
+        const fullname = document.getElementById("fullname").value.trim();
+        const phone_number = document.getElementById("phone").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const password = document.getElementById("password").value;
+        const retype_password = document.getElementById("confirmPassword").value;
+        const date_of_birth = document.getElementById("date_of_birth").value.trim();
+        const facebook_account_id = 0 ;
+        const facebook_account_type = 0;
+        const role_id = 1 ;
+
+
+        const messageEl = document.getElementById("message");
+        messageEl.style.color = "red";
+
+        if (!fullname || !phone_number || !email || !password || !retype_password) {
+            messageEl.innerText = " Vui lòng nhập đầy đủ thông tin!";
+            return;
+        }
+
+        if (password !== retype_password) {
+            messageEl.innerText = " Mật khẩu không khớp!";
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/api/v1/users/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fullname, address ,phone_number, email, password , retype_password , date_of_birth,facebook_account_id , facebook_account_type , role_id })
+            });
+
+            const result = await response.text();
+            if (response.ok) {
+                messageEl.style.color = "green";
+                messageEl.innerText = " Đăng ký thành công! Đang chuyển hướng...";
+                setTimeout(() => window.location.href = "login.html", 2);
+            } else {
+                messageEl.innerText = `${result}`;
+            }
+        } catch (error) {
+            messageEl.innerText = " Lỗi kết nối API!";
+            console.error("Lỗi đăng ký:", error);
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login UI</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        body {
+            background: linear-gradient(to bottom right, #dbeafe, #93c5fd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 350px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checkbox-label input {
+            margin-right: 8px;
+        }
+        .button {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .socials i {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .link a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .tabs button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #e0f2fe;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #1d4ed8;
+        }
+        .tabs button.active {
+            background-color: white;
+            border: 2px solid #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tabs">
+        <button id="signin-tab" class="active">Sign In</button>
+        <button id="signup-tab">Sign Up</button>
+    </div>
+
+    <div id="signin-form">
+        <h2>Welcome back</h2>
+        <input type="email" placeholder="Email" value="kristin.watson@example.com">
+        <input type="password" placeholder="Password" value="********">
+        <div class="checkbox-label">
+            <input type="checkbox" id="remember"> <label for="remember">Remember me</label>
+        </div>
+        <button class="button">Sign in</button>
+        <div class="link"><a href="#">Forgot password?</a></div>
+        <div class="socials">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-google"></i>
+            <i class="fab fa-apple"></i>
+        </div>
+        <div class="link">Don't have an account? <a href="#" id="switch-to-signup">Sign up</a></div>
+    </div>
+
+    <div id="signup-form" style="display:none;">
+        <h2>Get Started</h2>
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <div class="checkbox-label">
+            <input type="checkbox" id="agree"> <label for="agree">I agree to the processing of <a href="#">Personal data</a></label>
+        </div>
+        <button class="button">Sign up</button>
+        <div class="socials">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-google"></i>
+            <i class="fab fa-apple"></i>
+        </div>
+        <div class="link">Already have an account? <a href="#" id="switch-to-signin">Sign in</a></div>
+    </div>
+</div>
+
+<script>
+    const signinTab = document.getElementById('signin-tab');
+    const signupTab = document.getElementById('signup-tab');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const switchToSignup = document.getElementById('switch-to-signup');
+    const switchToSignin = document.getElementById('switch-to-signin');
+
+    signinTab.addEventListener('click', () => {
+        signinForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        signinTab.classList.add('active');
+        signupTab.classList.remove('active');
+    });
+
+    signupTab.addEventListener('click', () => {
+        signinForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        signupTab.classList.add('active');
+        signinTab.classList.remove('active');
+    });
+
+    switchToSignup.addEventListener('click', () => signupTab.click());
+    switchToSignin.addEventListener('click', () => signinTab.click());
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
